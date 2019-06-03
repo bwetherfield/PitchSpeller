@@ -5,27 +5,17 @@ import PackageDescription
 let package = Package(
     name: "PitchSpeller",
     products: [
-        .library(name: "PlotModel", targets: ["PlotModel"]),
-        .library(name: "SpelledPitch", targets: ["SpelledPitch"]),
-        .library(name: "SpelledRhythm", targets: ["SpelledRhythm"]),
-        .library(name: "StaffModel", targets: ["StaffModel"])
+        .library(name: "PitchSpeller", targets: ["PitchSpeller"])
     ],
     dependencies: [
-        .package(url: "https://github.com/dn-m/Structure", from: "0.22.0"),
-        .package(url: "https://github.com/dn-m/Math", from: "0.2.0"),
-        .package(url: "https://github.com/dn-m/Music", from: "0.10.0")
-    ],
+        .package(url: "https://github.com/dn-m/Structure", .branch("master")),
+        .package(url: "https://github.com/dn-m/Music", .branch("master")),
+        .package(url: "https://github.com/dn-m/NotationModel", .branch("master"))
+        ],
     targets: [
         // Sources
-        .target(name: "PlotModel", dependencies: ["DataStructures"]),
-        .target(name: "SpelledPitch", dependencies: ["Pitch", "DataStructures"]),
-        .target(name: "SpelledRhythm", dependencies: ["Duration"]),
-        .target(name: "StaffModel", dependencies: ["PlotModel", "SpelledPitch"]),
-
+        .target(name: "PitchSpeller", dependencies: ["DataStructures", "Pitch", "SpelledPitch"]),
         // Tests
-        .testTarget(name: "PlotModelTests", dependencies: ["PlotModel"]),
-        .testTarget(name: "SpelledPitchTests", dependencies: ["SpelledPitch"]),
-        .testTarget(name: "SpelledRhythmTests", dependencies: ["SpelledRhythm"]),
-        .testTarget(name: "StaffModelTests", dependencies: ["StaffModel"])
+        .testTarget(name: "PitchSpellerTests", dependencies: ["PitchSpeller"])
     ]
 )

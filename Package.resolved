@@ -14,9 +14,18 @@
         "package": "Music",
         "repositoryURL": "https://github.com/dn-m/Music",
         "state": {
-          "branch": null,
+          "branch": "master",
           "revision": "37779cef6a8ba93b117d44d477ecb6f2a123f335",
-          "version": "0.13.1"
+          "version": null
+        }
+      },
+      {
+        "package": "NotationModel",
+        "repositoryURL": "https://github.com/dn-m/NotationModel",
+        "state": {
+          "branch": "master",
+          "revision": "3f9df8933186f774aef75622c93e3f59fb6ef435",
+          "version": null
         }
       },
       {
@@ -32,9 +41,9 @@
         "package": "Structure",
         "repositoryURL": "https://github.com/dn-m/Structure",
         "state": {
-          "branch": null,
+          "branch": "master",
           "revision": "d699d35bc2d6b65303d23ec95a6c1eb66e65c2e7",
-          "version": "0.22.0"
+          "version": null
         }
       }
     ]
