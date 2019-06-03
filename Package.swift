@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "NotationModel",
+    name: "PitchSpeller",
     products: [
         .library(name: "PlotModel", targets: ["PlotModel"]),
         .library(name: "SpelledPitch", targets: ["SpelledPitch"]),
