@@ -1,14 +1,8 @@
 import XCTest
 
-import SpelledRhythmTests
-import StaffModelTests
-import SpelledPitchTests
-import PlotModelTests
+import PitchSpellerTests
 
 var tests = [XCTestCaseEntry]()
-tests += SpelledRhythmTests.__allTests()
-tests += StaffModelTests.__allTests()
-tests += SpelledPitchTests.__allTests()
-tests += PlotModelTests.__allTests()
+tests += PitchSpellerTests.__allTests()
 
 XCTMain(tests)
