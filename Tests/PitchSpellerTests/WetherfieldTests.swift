@@ -8,7 +8,8 @@
 import XCTest
 import Foundation
 import Pitch
-@testable import SpelledPitch
+import SpelledPitch
+@testable import PitchSpeller
 
 class WetherfieldTests: XCTestCase {
 

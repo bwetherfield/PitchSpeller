@@ -1,16 +1,5 @@
 import XCTest
 
-extension CompoundIntervalDescriptorTests {
-    static let __allTests = [
-        ("testInitTwoSpelledPitchesAscendingMajorTenth", testInitTwoSpelledPitchesAscendingMajorTenth),
-        ("testInitTwoSpelledPitchesAscendingMinorSecond", testInitTwoSpelledPitchesAscendingMinorSecond),
-        ("testInitTwoSpelledPitchesAscendingMinorSixth", testInitTwoSpelledPitchesAscendingMinorSixth),
-        ("testInitTwoSpelledPitchesDescendingMajorSecond", testInitTwoSpelledPitchesDescendingMajorSecond),
-        ("testInitTwoSpelledPitchesDescendingPerfectEleventh", testInitTwoSpelledPitchesDescendingPerfectEleventh),
-        ("testInitTwoSpelledPitchesUnison", testInitTwoSpelledPitchesUnison),
-    ]
-}
-
 extension FlowNetworkTests {
     static let __allTests = [
         ("testFlowNetworkAbsorbsSourceSink", testFlowNetworkAbsorbsSourceSink),
@@ -20,15 +9,6 @@ extension FlowNetworkTests {
         ("testMinimumCut", testMinimumCut),
         ("testPitchSpellingTestCase", testPitchSpellingTestCase),
         ("testUnreachableMinimumCut", testUnreachableMinimumCut),
-    ]
-}
-
-extension LetterNameTests {
-    static let __allTests = [
-        ("testDisplacedUnison", testDisplacedUnison),
-        ("testLetterNameSimpleNegative", testLetterNameSimpleNegative),
-        ("testLetterNameSimplePositive", testLetterNameSimplePositive),
-        ("testLetterNameWrapping", testLetterNameWrapping),
     ]
 }
 

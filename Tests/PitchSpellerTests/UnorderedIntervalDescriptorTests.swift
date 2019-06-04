@@ -9,6 +9,7 @@
 import XCTest
 import Pitch
 import SpelledPitch
+@testable import PitchSpeller
 
 class UnorderedIntervalDescriptorTests: XCTestCase {
 

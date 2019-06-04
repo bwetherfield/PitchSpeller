@@ -7,7 +7,8 @@
 
 import XCTest
 import Pitch
-@testable import SpelledPitch
+import SpelledPitch
+@testable import PitchSpeller
 
 class PitchSpellingTendencyTests: XCTestCase {
 

@@ -8,7 +8,8 @@
 import XCTest
 import DataStructures
 import Pitch
-@testable import SpelledPitch
+import SpelledPitch
+@testable import PitchSpeller
 
 class PitchSpellerTests: XCTestCase {
 

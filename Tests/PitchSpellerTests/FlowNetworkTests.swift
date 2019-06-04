@@ -8,7 +8,8 @@
 import XCTest
 import Algebra
 import DataStructures
-@testable import SpelledPitch
+import SpelledPitch
+@testable import PitchSpeller
 
 class FlowNetworkTests: XCTestCase {
 

@@ -9,6 +9,7 @@
 import XCTest
 import Pitch
 import SpelledPitch
+@testable import PitchSpeller
 
 class PitchSpellingTests: XCTestCase {
 
