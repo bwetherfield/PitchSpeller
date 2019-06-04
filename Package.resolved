@@ -23,8 +23,8 @@
         "package": "NotationModel",
         "repositoryURL": "https://github.com/dn-m/NotationModel",
         "state": {
-          "branch": "master",
-          "revision": "3f9df8933186f774aef75622c93e3f59fb6ef435",
+          "branch": "pitchspeller-dependency",
+          "revision": "1a10402a2b465c63ee8b5ae882a591c4954ffbc4",
           "version": null
         }
       },

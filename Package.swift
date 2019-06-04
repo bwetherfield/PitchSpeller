@@ -10,7 +10,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/dn-m/Structure", .branch("master")),
         .package(url: "https://github.com/dn-m/Music", .branch("master")),
-        .package(url: "https://github.com/dn-m/NotationModel", .branch("master"))
+        .package(url: "https://github.com/dn-m/NotationModel", .branch("pitchspeller-dependency"))
         ],
     targets: [
         // Sources
