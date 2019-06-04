@@ -6,6 +6,7 @@
 //
 
 import Pitch
+import SpelledPitch
 
 /// Unordered collection of `UnspelledPitchItem` values.
 struct UnspelledPitchSet {

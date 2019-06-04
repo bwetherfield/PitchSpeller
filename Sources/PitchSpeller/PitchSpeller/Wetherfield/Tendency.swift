@@ -7,6 +7,7 @@
 
 import DataStructures
 import Pitch
+import SpelledPitch
 
 typealias TendencyPair = OrderedPair<Tendency>
 

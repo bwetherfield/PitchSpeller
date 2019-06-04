@@ -7,6 +7,7 @@
 
 import DataStructures
 import Pitch
+import SpelledPitch
 
 enum FlowNode<Index>: Hashable where Index: Hashable {
     case `internal`(Index)

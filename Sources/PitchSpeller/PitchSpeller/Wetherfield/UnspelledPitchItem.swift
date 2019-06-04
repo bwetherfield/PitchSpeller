@@ -6,6 +6,7 @@
 //
 
 import Pitch
+import SpelledPitch
 
 /// A `Pitch.Class` wrapped up with an identifier.
 struct UnspelledPitchItem: Hashable {

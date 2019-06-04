@@ -8,6 +8,7 @@
 import DataStructures
 import Math
 import Pitch
+import SpelledPitch
 
 /// Interface for the six pitch spelling categories.
 protocol PitchSpellingCategoryProtocol: TendencyConverting {
