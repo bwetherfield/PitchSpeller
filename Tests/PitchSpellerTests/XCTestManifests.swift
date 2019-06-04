@@ -79,31 +79,6 @@ extension PitchSpellingTests {
     ]
 }
 
-extension PitchSpellingsTests {
-    static let __allTests = [
-        ("testDefaultPitchSpellingsForEighthToneResolution", testDefaultPitchSpellingsForEighthToneResolution),
-        ("testMiddleCPitchSpelling", testMiddleCPitchSpelling),
-    ]
-}
-
-extension SpelledDyadTests {
-    static let __allTests = [
-        ("testDiminishedThird", testDiminishedThird),
-        ("testDoubleAugmentedSixth", testDoubleAugmentedSixth),
-        ("testInitSorted", testInitSorted),
-        ("testRelativeNamedIntervalAugmentedFourth", testRelativeNamedIntervalAugmentedFourth),
-        ("testRelativeNamedIntervalAugmentedSecond", testRelativeNamedIntervalAugmentedSecond),
-        ("testRelativeNamedIntervalDiminishedFourth", testRelativeNamedIntervalDiminishedFourth),
-        ("testRelativeNamedIntervalDiminishedSecond", testRelativeNamedIntervalDiminishedSecond),
-        ("testRelativeNamedIntervalDoubleDiminishedFourth", testRelativeNamedIntervalDoubleDiminishedFourth),
-        ("testRelativeNamedIntervalDoubleDiminishedSecond", testRelativeNamedIntervalDoubleDiminishedSecond),
-        ("testRelativeNamedIntervalMinorSecond", testRelativeNamedIntervalMinorSecond),
-        ("testRelativeNamedIntervalPerfectFourth", testRelativeNamedIntervalPerfectFourth),
-        ("testRelativeNamedIntervalPerfectUnison", testRelativeNamedIntervalPerfectUnison),
-        ("testTripleAugmentedUnison", testTripleAugmentedUnison),
-    ]
-}
-
 extension SpelledPitchTests {
     static let __allTests = [
         ("testANaturalPlusPerfectFourthOctave", testANaturalPlusPerfectFourthOctave),
