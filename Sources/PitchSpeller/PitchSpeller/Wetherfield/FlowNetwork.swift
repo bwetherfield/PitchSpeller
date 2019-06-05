@@ -21,12 +21,6 @@ public struct FlowNetwork<InnerNode: Hashable, Weight: Numeric & Comparable>:
 
 extension FlowNetwork {
     
-//    public enum Node: Hashable {
-//        case `internal`(InnerNode)
-//        case source
-//        case sink
-//    }
-    
     public typealias Node = FlowNode<InnerNode>
     public typealias Edge = OrderedPair<Node>
 }
