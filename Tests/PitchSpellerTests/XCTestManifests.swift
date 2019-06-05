@@ -2,9 +2,9 @@ import XCTest
 
 extension FlowNetworkTests {
     static let __allTests = [
-        ("testFlowNetworkAbsorbsSourceSink", testFlowNetworkAbsorbsSourceSink),
+//        ("testFlowNetworkAbsorbsSourceSink", testFlowNetworkAbsorbsSourceSink),
         ("testFlowNetworkMaskEmpty", testFlowNetworkMaskEmpty),
-        ("testFlowNetworkMaskPullback", testFlowNetworkMaskPullback),
+//        ("testFlowNetworkMaskPullback", testFlowNetworkMaskPullback),
         ("testFlowNetworkMaskSquared", testFlowNetworkMaskSquared),
         ("testMinimumCut", testMinimumCut),
         ("testPitchSpellingTestCase", testPitchSpellingTestCase),
@@ -12,16 +12,16 @@ extension FlowNetworkTests {
     ]
 }
 
-extension PitchSpellerTests {
-    static let __allTests = [
-        ("testDyads", testDyads),
-        ("testFailingDyads", testFailingDyads),
-        ("testMonads", testMonads),
-        ("testSpelledOneFiveOverDNatural", testSpelledOneFiveOverDNatural),
-        ("testSpelledOneThreeOverDNatural", testSpelledOneThreeOverDNatural),
-        ("testSpelledZeroOneOverDNatural", testSpelledZeroOneOverDNatural),
-    ]
-}
+//extension PitchSpellerTests {
+//    static let __allTests = [
+//        ("testDyads", testDyads),
+//        ("testFailingDyads", testFailingDyads),
+//        ("testMonads", testMonads),
+//        ("testSpelledOneFiveOverDNatural", testSpelledOneFiveOverDNatural),
+//        ("testSpelledOneThreeOverDNatural", testSpelledOneThreeOverDNatural),
+//        ("testSpelledZeroOneOverDNatural", testSpelledZeroOneOverDNatural),
+//    ]
+//}
 
 extension PitchSpellingCategoryTests {
     static let __allTests = [
