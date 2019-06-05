@@ -11,18 +11,23 @@ import DataStructures
 /// - Each edge has a capacity for flow
 /// - A "source" node, which only emanates flow outward
 /// - A "sink" node, which only receives flow
-public struct FlowNetwork<Node: Hashable, Weight: Numeric & Comparable>:
+public struct FlowNetwork<InnerNode: Hashable, Weight: Numeric & Comparable>:
     WeightedGraphProtocol,
     DirectedGraphProtocol
 {
     public var weights: [Edge: Weight]
     public var nodes: Set<Node>
-    public var source: Node
-    public var sink: Node
 }
 
 extension FlowNetwork {
     
+//    public enum Node: Hashable {
+//        case `internal`(InnerNode)
+//        case source
+//        case sink
+//    }
+    
+    public typealias Node = FlowNode<InnerNode>
     public typealias Edge = OrderedPair<Node>
 }
 
@@ -32,17 +37,13 @@ extension FlowNetwork {
 
     /// Creates a `FlowNetwork` with the given `directedGraph` and the given `source` and `sink`
     /// nodes.
-    init(_ directedGraph: WeightedDirectedGraph<Node,Weight>, source: Node, sink: Node) {
+    init(_ directedGraph: WeightedDirectedGraph<Node,Weight>) {
         self.nodes = directedGraph.nodes
         self.weights = directedGraph.weights
-        self.source = source
-        self.sink = sink
     }
 
     /// Creates a `FlowNetwork` with the given `source`, `sink`, `nodes`, and `weights`.
-    public init(source: Node, sink: Node, nodes: Set<Node> = [], weights: [Edge: Weight] = [:]) {
-        self.source = source
-        self.sink = sink
+    public init(nodes: Set<Node> = [], weights: [Edge: Weight] = [:]) {
         self.nodes = nodes
         self.weights = weights
     }
@@ -77,7 +78,7 @@ extension FlowNetwork {
     // MARK: - Instance Methods
 
     func contains(_ node: Node) -> Bool {
-        return node == source || node == sink || nodes.contains(node)
+        return node == .source || node == .sink || nodes.contains(node)
     }
 }
 
@@ -132,14 +133,14 @@ extension FlowNetwork {
     /// - Returns: All of the `Node` values contained herein which are neither the `source` nor
     /// the `sink`.
     public var internalNodes: [Node] {
-        return nodes.filter { $0 != source && $0 != sink }
+        return nodes.filter { $0 != .source && $0 != .sink }
     }
 
     /// - Returns: A minimum cut with nodes included on the `sink` side in case of a
     /// tiebreak (in- and out- edges saturated).
     public var minimumCut: (Set<Node>, Set<Node>) {
         let (_, residualNetwork) = maximumFlowAndResidualNetwork
-        let sourceSideNodes = Set(residualNetwork.breadthFirstSearch(from: source))
+        let sourceSideNodes = Set(residualNetwork.breadthFirstSearch(from: .source))
         let notSourceSideNodes = residualNetwork.nodes.subtracting(sourceSideNodes)
         return (sourceSideNodes, notSourceSideNodes)
     }
@@ -153,14 +154,14 @@ extension FlowNetwork {
         var residualNetwork = self
         // While an augmenting path (a path emanating directionally from the source node) can be
         // found, push flow through the path, mutating the residual network
-        while let augmentingPath = residualNetwork.shortestUnweightedPath(from: source, to: sink) {
+        while let augmentingPath = residualNetwork.shortestUnweightedPath(from: .source, to: .sink) {
             residualNetwork.pushFlow(through: augmentingPath)
         }
         // Compares the edges in the mutated residual network against the original directed
         // graph.
         let flow: Weight = {
-            let sourceEdges = neighbors(of: source).lazy
-                .map { OrderedPair(self.source, $0) }
+            let sourceEdges = neighbors(of: .source).lazy
+                .map { OrderedPair(.source, $0) }
                 .partition(residualNetwork.contains)
             let edgesPresent = sourceEdges.whereTrue.lazy
                 .map { edge in self.weight(edge)! - residualNetwork.weight(edge)! }
