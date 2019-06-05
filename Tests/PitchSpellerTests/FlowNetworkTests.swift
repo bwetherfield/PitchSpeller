@@ -20,16 +20,16 @@ class FlowNetworkTests: XCTestCase {
     ///  2 \ / 4
     ///     b
     var simpleFlowNetwork: FlowNetwork<String,Int> {
-        var graph = WeightedDirectedGraph<String,Int>()
-        graph.insert("s")
-        graph.insert("t")
-        graph.insert("a")
-        graph.insert("b")
-        graph.insertEdge(from: "s", to: "a", weight: 1)
-        graph.insertEdge(from: "s", to: "b", weight: 2)
-        graph.insertEdge(from: "a", to: "t", weight: 3)
-        graph.insertEdge(from: "b", to: "t", weight: 4)
-        return FlowNetwork(graph, source: "s", sink: "t")
+        var graph = WeightedDirectedGraph<FlowNode<String>,Int>()
+        graph.insert(.internal("a"))
+        graph.insert(.internal("b"))
+        graph.insert(.source)
+        graph.insert(.sink)
+        graph.insertEdge(from: .source, to: .internal("a"), weight: 1)
+        graph.insertEdge(from: .source, to: .internal("b"), weight: 2)
+        graph.insertEdge(from: .internal("a"), to: .sink, weight: 3)
+        graph.insertEdge(from: .internal("b"), to: .sink, weight: 4)
+        return FlowNetwork(graph)
     }
     
     func assertDuality <Node> (_ flowNetwork: FlowNetwork<Node,Double>) {
@@ -57,34 +57,34 @@ class FlowNetworkTests: XCTestCase {
     }
     
     func testMinimumCut() {
-        XCTAssertEqual(simpleFlowNetwork.minimumCut.0, ["s"])
-        XCTAssertEqual(simpleFlowNetwork.minimumCut.1, ["a","b","t"])
+        XCTAssertEqual(simpleFlowNetwork.minimumCut.0, [.source])
+        XCTAssertEqual(simpleFlowNetwork.minimumCut.1, [.internal("a"),.internal("b"),.sink])
     }
     
     func testUnreachableMinimumCut() {
-        var graph = WeightedDirectedGraph<String,Int>()
-        graph.insert("s")
-        graph.insert("a")
-        graph.insert("b")
-        graph.insert("t")
-        graph.insertEdge(from: "s", to: "a", weight: 2)
-        graph.insertEdge(from: "a", to: "b", weight: 2)
-        graph.insertEdge(from: "b", to: "t", weight: 3)
-        let cut = FlowNetwork(graph, source: "s", sink: "t").minimumCut
-        XCTAssertEqual(cut.0.union(cut.1), ["s", "a", "t", "b"])
+        var graph = WeightedDirectedGraph<FlowNode<String>,Int>()
+        graph.insert(.source)
+        graph.insert(.internal("a"))
+        graph.insert(.internal("b"))
+        graph.insert(.sink)
+        graph.insertEdge(from: .source, to: .internal("a"), weight: 2)
+        graph.insertEdge(from: .internal("a"), to: .internal("b"), weight: 2)
+        graph.insertEdge(from: .internal("b"), to: .sink, weight: 3)
+        let cut = FlowNetwork(graph).minimumCut
+        XCTAssertEqual(cut.0.union(cut.1), [.source, .internal("a"), .sink, .internal("b")])
     }
-    
-    func testFlowNetworkAbsorbsSourceSink() {
-        var graph = WeightedDirectedGraph<String,Double>()
-        graph.insert("a")
-        let flowNetwork = FlowNetwork(graph, source: "s", sink: "t")
-        XCTAssert(flowNetwork.contains("s"))
-        XCTAssert(flowNetwork.contains("t"))
-        XCTAssert(flowNetwork.contains("a"))
-    }
+//    
+//    func testFlowNetworkAbsorbsSourceSink() {
+//        var graph = WeightedDirectedGraph<FlowNode<String>,Double>()
+//        graph.insert(.internal("a"))
+//        let flowNetwork = FlowNetwork(graph)
+//        XCTAssert(flowNetwork.contains(.internal("s")))
+//        XCTAssert(flowNetwork.contains(.internal("t")))
+//        XCTAssert(flowNetwork.contains(.internal("a")))
+//    }
 
     func testFlowNetworkMaskEmpty() {
-        let weightScheme = WeightedGraphScheme<String,Int> { _ in nil }
+        let weightScheme = WeightedGraphScheme<FlowNode<String>,Int> { _ in nil }
         var flowNetwork = simpleFlowNetwork
         flowNetwork.mask(weightScheme)
         XCTAssertEqual(flowNetwork.nodes, simpleFlowNetwork.nodes)
@@ -92,7 +92,7 @@ class FlowNetworkTests: XCTestCase {
     }
 
     func testFlowNetworkMaskSquared() {
-        let maskScheme = WeightedGraphScheme<String,Int> { edge in
+        let maskScheme = WeightedGraphScheme<FlowNode<String>,Int> { edge in
             self.simpleFlowNetwork.weight(from: edge.a, to: edge.b)
         }
         var flowNetwork = simpleFlowNetwork
@@ -103,21 +103,21 @@ class FlowNetworkTests: XCTestCase {
         }
     }
 
-    func testFlowNetworkMaskPullback() {
-        var maskGraph = WeightedGraph<Int,Int>()
-        maskGraph.insertEdge(from: 0, to: 1, weight: 1)
-        maskGraph.insertEdge(from: 1, to: 2, weight: 2)
-        let maskScheme: WeightedDirectedGraphScheme<String,Int> = WeightedDirectedGraphScheme<Int,Int> { edge in
-                maskGraph.weight(from: edge.a, to: edge.b)
-            }.pullback { (s: String) -> Int in s.count }
-        var graph = WeightedDirectedGraph<String,Int>()
-        graph.insertEdge(from: "", to: ".", weight: 3)
-        graph.insertEdge(from: ".", to: "..", weight: 5)
-        var flowNetwork = FlowNetwork(graph, source: "", sink: "..")
-        flowNetwork.mask(maskScheme)
-        XCTAssertEqual(flowNetwork.weight(from: "", to: "."), 3)
-        XCTAssertEqual(flowNetwork.weight(from: ".", to: ".."), 10)
-    }
+//    func testFlowNetworkMaskPullback() {
+//        var maskGraph = WeightedGraph<Int,Int>()
+//        maskGraph.insertEdge(from: 0, to: 1, weight: 1)
+//        maskGraph.insertEdge(from: 1, to: 2, weight: 2)
+//        let maskScheme: WeightedDirectedGraphScheme<String,Int> = WeightedDirectedGraphScheme<Int,Int> { edge in
+//                maskGraph.weight(from: edge.a, to: edge.b)
+//            }.pullback { (s: String) -> Int in s.count }
+//        var graph = WeightedDirectedGraph<FlowNode<String>,Int>()
+//        graph.insertEdge(from: .source, to: .internal("."), weight: 3)
+//        graph.insertEdge(from: .internal("."), to: .sink, weight: 5)
+//        var flowNetwork = FlowNetwork(graph)
+//        flowNetwork.mask(maskScheme)
+//        XCTAssertEqual(flowNetwork.weight(from: .source, to: .internal(".")), 3)
+//        XCTAssertEqual(flowNetwork.weight(from: .internal("."), to: .sink), 10)
+//    }
 
     func testPitchSpellingTestCase() {
         let expectedGraph = WeightedDirectedGraph<PitchSpellingNode.Index,Double> (Set([
@@ -147,9 +147,7 @@ class FlowNetworkTests: XCTestCase {
                 .init(.internal(.init(3,.down)),.internal(.init(1,  .up))): 0.5,
                 ]
         )
-        let expectedFlowNetwork = FlowNetwork<PitchSpellingNode.Index,Double> (
-            expectedGraph, source: .source, sink: .sink
-        )
+        let expectedFlowNetwork = FlowNetwork<Cross<Int,Tendency>,Double> (expectedGraph)
         let (sourceNodes, sinkNodes) = expectedFlowNetwork.minimumCut
         let expectedSourceNodes = Set<PitchSpellingNode.Index>([.source, .internal(.init(3, .down))])
         let expectedSinkNodes = Set<PitchSpellingNode.Index>([.sink,

@@ -1,10 +1,19 @@
 import XCTest
 
+extension CompoundIntervalDescriptorTests {
+    static let __allTests = [
+        ("testInitTwoSpelledPitchesAscendingMajorTenth", testInitTwoSpelledPitchesAscendingMajorTenth),
+        ("testInitTwoSpelledPitchesAscendingMinorSecond", testInitTwoSpelledPitchesAscendingMinorSecond),
+        ("testInitTwoSpelledPitchesAscendingMinorSixth", testInitTwoSpelledPitchesAscendingMinorSixth),
+        ("testInitTwoSpelledPitchesDescendingMajorSecond", testInitTwoSpelledPitchesDescendingMajorSecond),
+        ("testInitTwoSpelledPitchesDescendingPerfectEleventh", testInitTwoSpelledPitchesDescendingPerfectEleventh),
+        ("testInitTwoSpelledPitchesUnison", testInitTwoSpelledPitchesUnison),
+    ]
+}
+
 extension FlowNetworkTests {
     static let __allTests = [
-        ("testFlowNetworkAbsorbsSourceSink", testFlowNetworkAbsorbsSourceSink),
         ("testFlowNetworkMaskEmpty", testFlowNetworkMaskEmpty),
-        ("testFlowNetworkMaskPullback", testFlowNetworkMaskPullback),
         ("testFlowNetworkMaskSquared", testFlowNetworkMaskSquared),
         ("testMinimumCut", testMinimumCut),
         ("testPitchSpellingTestCase", testPitchSpellingTestCase),
@@ -12,14 +21,12 @@ extension FlowNetworkTests {
     ]
 }
 
-extension PitchSpellerTests {
+extension LetterNameTests {
     static let __allTests = [
-        ("testDyads", testDyads),
-        ("testFailingDyads", testFailingDyads),
-        ("testMonads", testMonads),
-        ("testSpelledOneFiveOverDNatural", testSpelledOneFiveOverDNatural),
-        ("testSpelledOneThreeOverDNatural", testSpelledOneThreeOverDNatural),
-        ("testSpelledZeroOneOverDNatural", testSpelledZeroOneOverDNatural),
+        ("testDisplacedUnison", testDisplacedUnison),
+        ("testLetterNameSimpleNegative", testLetterNameSimpleNegative),
+        ("testLetterNameSimplePositive", testLetterNameSimplePositive),
+        ("testLetterNameWrapping", testLetterNameWrapping),
     ]
 }
 
@@ -185,12 +192,9 @@ public func __allTests() -> [XCTestCaseEntry] {
         testCase(CompoundIntervalDescriptorTests.__allTests),
         testCase(FlowNetworkTests.__allTests),
         testCase(LetterNameTests.__allTests),
-        testCase(PitchSpellerTests.__allTests),
         testCase(PitchSpellingCategoryTests.__allTests),
         testCase(PitchSpellingTendencyTests.__allTests),
         testCase(PitchSpellingTests.__allTests),
-        testCase(PitchSpellingsTests.__allTests),
-        testCase(SpelledDyadTests.__allTests),
         testCase(SpelledPitchTests.__allTests),
         testCase(SpellingInverterTests.__allTests),
         testCase(UnorderedIntervalDescriptorTests.__allTests),

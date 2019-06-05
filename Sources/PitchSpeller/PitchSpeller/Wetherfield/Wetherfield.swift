@@ -9,22 +9,6 @@ import DataStructures
 import Pitch
 import SpelledPitch
 
-enum FlowNode<Index>: Hashable where Index: Hashable {
-    case `internal`(Index)
-    case source
-    case sink
-}
-
-func bind <S: Hashable, A: Hashable> (_ f: @escaping (S) -> A) -> (FlowNode<S>) -> FlowNode<A> {
-    return { flowNodeS in
-        switch flowNodeS {
-        case .internal(let index): return .internal(f(index))
-        case .source: return .source
-        case .sink: return .sink
-        }
-    }
-}
-
 extension FlowNode where Index == Cross<Int,Tendency> {
     var tendency: Tendency {
         switch self {
@@ -78,7 +62,7 @@ struct PitchSpeller {
     // MARK: - Instance Properties
 
     /// The `FlowNetwork` which will be manipulated in order to spell the unspelled `pitches`.
-    var flowNetwork: FlowNetwork<PitchSpellingNode.Index,Double>
+    var flowNetwork: FlowNetwork<Cross<Int,Tendency>,Double>
 
     /// The unspelled `Pitch` values to be spelled.
     let pitch: (PitchSpellingNode.Index) -> Pitch?
@@ -168,8 +152,8 @@ extension PitchSpeller {
 
         var assignedNodes: [AssignedNode] {
             var (sourceSide, sinkSide) = flowNetwork.minimumCut
-            sourceSide.remove(flowNetwork.source)
-            sinkSide.remove(flowNetwork.sink)
+            sourceSide.remove(.source)
+            sinkSide.remove(.sink)
             let downNodes = sourceSide.map { index in AssignedNode(index, .down) }
             let upNodes = sinkSide.map { index in AssignedNode(index, .up) }
             return downNodes + upNodes
@@ -310,16 +294,18 @@ private let internalEdgeLookup: [UnorderedPair<Cross<Pitch.Class, Tendency>>: Do
     .init(.init(01,   .up), .init(05, .down)): lightWeight
 ]
 
-extension FlowNetwork where Node == PitchSpellingNode.Index, Weight == Double {
+extension FlowNetwork where InnerNode == Cross<Int,Tendency>, Weight == Double {
 
     /// Create a `FlowNetwork` which is hooked up as neccesary for the Wetherfield pitch-spelling
     /// process.
-    init(internalNodes: [PitchSpellingNode.Index]) {
-        self.init(source: .source, sink: .sink)
-        for node in internalNodes {
-            insertEdge(from: source, to: node, weight: featherWeight)
-            insertEdge(from: node, to: sink, weight: featherWeight)
-            for other in internalNodes.lazy.filter({ $0 != node }) {
+    init(internalNodes: [Cross<Int,Tendency>]) {
+        self.init()
+        for internalNode in internalNodes {
+            let node = FlowNode.internal(internalNode)
+            insertEdge(from: .source, to: node, weight: featherWeight)
+            insertEdge(from: node, to: .sink, weight: featherWeight)
+            for internalOther in internalNodes.lazy.filter({ $0 != internalNode }) {
+                let other = FlowNode.internal(internalOther)
                 insertEdge(from: node, to: other, weight: featherWeight)
             }
         }
@@ -328,8 +314,6 @@ extension FlowNetwork where Node == PitchSpellingNode.Index, Weight == Double {
     /// Creates an empty `FlowNetwork` ready to be used incrementally constructed for the purposes
     /// of pitch spelling.
     init() {
-        self.source = .source
-        self.sink = .sink
         self.nodes = []
         self.weights = [:]
     }
@@ -337,15 +321,15 @@ extension FlowNetwork where Node == PitchSpellingNode.Index, Weight == Double {
 
 /// - Returns: An array of nodes, each representing the index of the unassigned node in
 /// `pitchNodes`.
-private func internalNodes(pitches: [Int: Pitch]) -> [PitchSpellingNode.Index] {
-    return pitches.keys.flatMap { offset in [.down,.up].map { index in node(offset, index) } }
+private func internalNodes(pitches: [Int: Pitch]) -> [Cross<Int,Tendency>] {
+    return pitches.keys.flatMap { offset in [.down,.up].map { index in .init(offset, index) } }
 }
 
 /// - Returns: The value of a node at the given offset (index of a `Pitch` within `pitches`),
 /// and an index (either `0` or `1`, which of the two nodes in the `FlowNetwork` that represent
 /// the given `Pitch`.)
-private func node(_ offset: Int, _ index: Tendency) -> PitchSpellingNode.Index {
-    return .internal(.init(offset, index))
+private func node(_ offset: Int, _ index: Tendency) -> Cross<Int,Tendency> {
+    return .init(offset, index)
 }
 
 extension FlowNode: CustomStringConvertible {
