@@ -719,4 +719,95 @@ class SpellingInverterTests: XCTestCase {
         )]!)
 
     }
+    
+    func testGroupBuilder() {
+        let semitones: [Pitch.Spelling] = [
+            .c,
+            Pitch.Spelling(.d, .flat),
+            Pitch.Spelling(.c, .sharp),
+            .d,
+            .d,
+            Pitch.Spelling(.e, .flat),
+            Pitch.Spelling(.d, .sharp),
+            .e,
+            .e,
+            .f,
+            .f,
+            Pitch.Spelling(.g, .flat),
+            Pitch.Spelling(.f, .sharp),
+            .g,
+            .g,
+            Pitch.Spelling(.a, .flat),
+            Pitch.Spelling(.g, .sharp),
+            .a,
+            .a,
+            Pitch.Spelling(.b, .flat),
+            Pitch.Spelling(.a, .sharp),
+            .b,
+            .b,
+            .c
+        ]
+        let semitonesGrouped: [[Pitch.Spelling]] = [
+            [
+                .c,
+                Pitch.Spelling(.d, .flat)
+            ],
+            [
+                Pitch.Spelling(.c, .sharp),
+                .d
+            ],
+            [
+                .d,
+                Pitch.Spelling(.e, .flat)
+            ],
+            [
+                Pitch.Spelling(.d, .sharp),
+                .e
+            ],
+            [
+                .e,
+                .f,
+            ],
+            [
+                .f,
+                Pitch.Spelling(.g, .flat),
+            ],
+            [
+                Pitch.Spelling(.f, .sharp),
+                .g,
+            ],
+            [
+                .g,
+                Pitch.Spelling(.a, .flat),
+            ],
+            [
+                Pitch.Spelling(.g, .sharp),
+                .a,
+            ],
+            [
+                .a,
+                Pitch.Spelling(.b, .flat),
+            ],
+            [
+                Pitch.Spelling(.a, .sharp),
+                .b,
+            ],
+            [
+                .b,
+                .c
+            ]
+        ]
+        var spellingInverter1 = SpellingInverter(spellings: semitones)
+        var spellingInverter2 = SpellingInverter(spellings: semitonesGrouped)
+        let pairing = GraphScheme<FlowNode<Int>> { edge in
+            switch (edge.a, edge.b) {
+            case let (.internal(a), .internal(b)):
+                return ((a % 2 == 0) && (b % 2 == 1) && (b - 1 == a)) ||
+                    ((a % 2 == 1) && (b % 2 == 0) && (a - 1 == b))
+            default: return true
+            }
+        }
+        spellingInverter1.mask(pairing)
+        XCTAssertEqual(spellingInverter1.flowNetwork.nodes, spellingInverter2.flowNetwork.nodes)
+    }
 }
