@@ -37,27 +37,7 @@ extension SpellingInverter {
         let flattenedSpellings: [Pitch.Spelling] = spellings.reduce(into: []) { flattened, list in
             list.forEach { flattened.append($0) }
         }
-        var intPartition: [Int: Int] = [:]
-        var runningCount = 0
-        spellings.enumerated().forEach { containerIndex, container in
-            container.enumerated().forEach { elementIndex, _ in
-                intPartition[runningCount + elementIndex] = containerIndex
-            }
-            runningCount += container.count
-        }
         self.init(spellings: flattenedSpellings, parsimonyPivot: parsimonyPivot)
-        var containerScheme: DirectedGraphScheme<PitchSpeller.AssignedNode> {
-            let unassignedScheme = DirectedGraphScheme<PitchSpeller.UnassignedNode> { edge in
-                switch (edge.a.index, edge.b.index) {
-                case (.internal(let a), .internal(let b)):
-                    return a == b
-                default:
-                    return true
-                }
-            }
-            return unassignedScheme.pullback { $0.unassigned }
-        }
-        self.flowNetwork.mask(containerScheme)
     }
     
     init(spellings: [Pitch.Spelling], parsimonyPivot: Pitch.Spelling = .d) {
