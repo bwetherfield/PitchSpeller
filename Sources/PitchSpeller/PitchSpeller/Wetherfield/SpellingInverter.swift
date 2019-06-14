@@ -38,6 +38,28 @@ extension SpellingInverter {
             list.forEach { flattened.append($0) }
         }
         self.init(spellings: flattenedSpellings, parsimonyPivot: parsimonyPivot)
+        var runningCount = 0
+        var scheme = GraphScheme<FlowNode<Int>> { edge in
+            switch (edge.a, edge.b) {
+            case (.internal, .internal):
+                return false
+            default:
+                return true
+            }
+        }
+        for container in spellings {
+            scheme = scheme + GraphScheme<FlowNode<Int>> { edge in
+                switch (edge.a, edge.b) {
+                case let (.internal(a), .internal(b)):
+                    return (a <= runningCount + container.count) && (a <= runningCount + container.count)
+                        && (a > runningCount) && (b > runningCount)
+                default:
+                    return false
+                }
+            }
+            runningCount += container.count + 1
+        }
+        self.mask(scheme)
     }
     
     init(spellings: [Pitch.Spelling], parsimonyPivot: Pitch.Spelling = .d) {
