@@ -724,5 +724,6 @@ class SpellingInverterTests: XCTestCase {
         let spellingInverter1 = SpellingInverter(spellings: [.c])
         let spellingInverter2 = SpellingInverter(spellings: [[.c]])
         XCTAssertEqual(spellingInverter1.flowNetwork.nodes, spellingInverter2.flowNetwork.nodes)
+        XCTAssertEqual(spellingInverter1.flowNetwork.edges, spellingInverter2.flowNetwork.edges)
     }
 }
