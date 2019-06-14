@@ -47,10 +47,14 @@ extension SpellingInverter {
         }
         self.init(spellings: flattenedSpellings, parsimonyPivot: parsimonyPivot)
         var containerScheme: DirectedGraphScheme<PitchSpeller.AssignedNode> {
-            let unassignedScheme: DirectedGraphScheme<PitchSpeller.UnassignedNode> =
-                DirectedGraphScheme<Int> { edge in
-                intPartition[edge.a] == intPartition[edge.b]
-                }.pullback { $0.index.int! }
+            let unassignedScheme = DirectedGraphScheme<PitchSpeller.UnassignedNode> { edge in
+                switch (edge.a.index, edge.b.index) {
+                case (.internal(let a), .internal(let b)):
+                    return a == b
+                default:
+                    return true
+                }
+            }
             return unassignedScheme.pullback { $0.unassigned }
         }
         self.flowNetwork.mask(containerScheme)
