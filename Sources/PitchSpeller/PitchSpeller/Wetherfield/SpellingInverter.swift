@@ -46,7 +46,7 @@ extension SpellingInverter {
             }
             runningCount += container.count
         }
-        self.partition(indexing)
+        self.partition(via: indexing)
     }
     
     init(spellings: [Pitch.Spelling], parsimonyPivot: Pitch.Spelling = .d) {
@@ -224,7 +224,7 @@ extension SpellingInverter {
     
     // MARK: - Instance Methods
     
-    mutating func partition (_ indices: [Int: Int]) {
+    mutating func partition (via indices: [Int: Int]) {
         let adjacencyScheme = GraphScheme<FlowNode<Int>> { edge in
             switch (edge.a, edge.b) {
             case let (.internal(a), .internal(b)):

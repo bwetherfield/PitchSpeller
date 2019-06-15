@@ -301,7 +301,7 @@ class SpellingInverterTests: XCTestCase {
             3: Pitch.Spelling(.g,.flat),
             4: Pitch.Spelling(.b,.flat)
             ])
-        spellingInverter.partition([1:0, 2:0, 3:1, 4:1])
+        spellingInverter.partition(via: [1:0, 2:0, 3:1, 4:1])
         XCTAssertTrue(spellingInverter.findDependencies().containsCycle())
     }
     
@@ -313,7 +313,7 @@ class SpellingInverterTests: XCTestCase {
             4: Pitch.Spelling(.a, .sharp),
             5: Pitch.Spelling(.c, .sharp)
             ])
-        spellingInverter.partition([
+        spellingInverter.partition(via: [
             1: 0,
             2: 0,
             3: 1,
@@ -675,7 +675,7 @@ class SpellingInverterTests: XCTestCase {
             3: Pitch.Spelling(.g,.flat),
             4: Pitch.Spelling(.b,.flat)
             ])
-        spellingInverter.partition([1:0, 2:0, 3:1, 4:1])
+        spellingInverter.partition(via: [1:0, 2:0, 3:1, 4:1])
         XCTAssertFalse(spellingInverter.findDependencies().DAGify().containsCycle())
     }
     
@@ -686,7 +686,7 @@ class SpellingInverterTests: XCTestCase {
             3: Pitch.Spelling(.g,.flat),
             4: Pitch.Spelling(.b,.flat)
             ])
-        spellingInverter.partition([1:0, 2:0, 3:1, 4:1])
+        spellingInverter.partition(via: [1:0, 2:0, 3:1, 4:1])
         let weights = spellingInverter.generateWeights()
         XCTAssertEqual(weights[SpellingInverter.PitchedEdge(
             .internal(Cross<Pitch.Class, Tendency>(6, .up)),
@@ -771,7 +771,7 @@ class SpellingInverterTests: XCTestCase {
     
     func testGroupBuilderThreeGroupsMoreComplicatedPartitionSyntax() {
         var spellingInverter1 = SpellingInverter(spellings: [.c, .d, .e, .f])
-        spellingInverter1.partition([
+        spellingInverter1.partition(via: [
             0: 0,
             1: 1,
             2: 1,
