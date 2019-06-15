@@ -246,7 +246,9 @@ extension SpellingInverter {
     
     mutating func mask (_ adjacencyScheme: GraphScheme<FlowNode<Int>>) {
         let temp: GraphScheme<FlowNode<Cross<Int, Tendency>>>
-            = adjacencyScheme.pullback(bind { cross in cross.a})
+            = (adjacencyScheme + GraphScheme<FlowNode<Int>> { edge in
+                edge.a == edge.b
+                }).pullback(bind { cross in cross.a})
         let mask: GraphScheme<PitchSpeller.AssignedNode> = temp.pullback { node in node.index }
         flowNetwork.mask(mask)
     }
