@@ -46,15 +46,7 @@ extension SpellingInverter {
             }
             runningCount += container.count
         }
-        let intScheme = GraphScheme<FlowNode<Int>> { edge in
-            switch (edge.a, edge.b) {
-            case let (.internal(a), .internal(b)):
-                return (dictionary[a] == dictionary[b]) && a != b
-            default:
-                return true
-            }
-        }
-        self.mask(intScheme)
+        self.partition(dictionary)
     }
     
     init(spellings: [Pitch.Spelling], parsimonyPivot: Pitch.Spelling = .d) {
