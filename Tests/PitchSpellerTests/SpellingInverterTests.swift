@@ -290,7 +290,7 @@ class SpellingInverterTests: XCTestCase {
                 || (edge.contains(.internal(3)) && edge.contains(.internal(4)))
             || edge.contains(.sink) || edge.contains(.source)
         }
-        spellingInverter.mask(scheme)
+        spellingInverter.connect(via: scheme)
         XCTAssertTrue(spellingInverter.findDependencies().containsCycle())
     }
     
@@ -301,7 +301,7 @@ class SpellingInverterTests: XCTestCase {
             3: Pitch.Spelling(.g,.flat),
             4: Pitch.Spelling(.b,.flat)
             ])
-        spellingInverter.partition([1:0, 2:0, 3:1, 4:1])
+        spellingInverter.partition(via: [1:0, 2:0, 3:1, 4:1])
         XCTAssertTrue(spellingInverter.findDependencies().containsCycle())
     }
     
@@ -313,7 +313,7 @@ class SpellingInverterTests: XCTestCase {
             4: Pitch.Spelling(.a, .sharp),
             5: Pitch.Spelling(.c, .sharp)
             ])
-        spellingInverter.partition([
+        spellingInverter.partition(via: [
             1: 0,
             2: 0,
             3: 1,
@@ -359,7 +359,7 @@ class SpellingInverterTests: XCTestCase {
             default: return true
             }
         }
-        spellingInverter.mask(pairing)
+        spellingInverter.connect(via: pairing)
         XCTAssertFalse(spellingInverter.findDependencies().containsCycle())
     }
     
@@ -399,7 +399,7 @@ class SpellingInverterTests: XCTestCase {
             default: return true
             }
         }
-        spellingInverter.mask(pairing)
+        spellingInverter.connect(via: pairing)
         XCTAssertFalse(spellingInverter.findDependencies().containsCycle())
     }
     
@@ -439,7 +439,7 @@ class SpellingInverterTests: XCTestCase {
             default: return true
             }
         }
-        spellingInverter.mask(pairing)
+        spellingInverter.connect(via: pairing)
         XCTAssertFalse(spellingInverter.findDependencies().containsCycle())
     }
     
@@ -479,7 +479,7 @@ class SpellingInverterTests: XCTestCase {
             default: return true
             }
         }
-        spellingInverter.mask(pairing)
+        spellingInverter.connect(via: pairing)
         XCTAssertFalse(spellingInverter.findDependencies().containsCycle())
     }
     
@@ -519,7 +519,7 @@ class SpellingInverterTests: XCTestCase {
             default: return true
             }
         }
-        spellingInverter.mask(pairing)
+        spellingInverter.connect(via: pairing)
         XCTAssertFalse(spellingInverter.findDependencies().containsCycle())
     }
     
@@ -664,7 +664,7 @@ class SpellingInverterTests: XCTestCase {
             default: return true
             }
         }
-        spellingInverter.mask(pairing)
+        spellingInverter.connect(via: pairing)
         XCTAssertFalse(spellingInverter.findDependencies().containsCycle())
     }
     
@@ -675,7 +675,7 @@ class SpellingInverterTests: XCTestCase {
             3: Pitch.Spelling(.g,.flat),
             4: Pitch.Spelling(.b,.flat)
             ])
-        spellingInverter.partition([1:0, 2:0, 3:1, 4:1])
+        spellingInverter.partition(via: [1:0, 2:0, 3:1, 4:1])
         XCTAssertFalse(spellingInverter.findDependencies().DAGify().containsCycle())
     }
     
@@ -686,7 +686,7 @@ class SpellingInverterTests: XCTestCase {
             3: Pitch.Spelling(.g,.flat),
             4: Pitch.Spelling(.b,.flat)
             ])
-        spellingInverter.partition([1:0, 2:0, 3:1, 4:1])
+        spellingInverter.partition(via: [1:0, 2:0, 3:1, 4:1])
         let weights = spellingInverter.generateWeights()
         XCTAssertEqual(weights[SpellingInverter.PitchedEdge(
             .internal(Cross<Pitch.Class, Tendency>(6, .up)),
@@ -718,5 +718,66 @@ class SpellingInverterTests: XCTestCase {
             .internal(Cross<Pitch.Class, Tendency>(6, .down))
         )]!)
 
+    }
+    
+    func testGroupBuilderSimple() {
+        let spellingInverter1 = SpellingInverter(spellings: [.c])
+        let spellingInverter2 = SpellingInverter(spellings: [[.c]])
+        XCTAssertEqual(spellingInverter1.flowNetwork.nodes, spellingInverter2.flowNetwork.nodes)
+        XCTAssertEqual(spellingInverter1.flowNetwork.edges, spellingInverter2.flowNetwork.edges)
+    }
+    
+    func testGroupBuilderSimple2() {
+        let spellingInverter1 = SpellingInverter(spellings: [.c, .d])
+        let spellingInverter2 = SpellingInverter(spellings: [[.c, .d]])
+        XCTAssertEqual(spellingInverter1.flowNetwork.nodes, spellingInverter2.flowNetwork.nodes)
+        XCTAssertEqual(spellingInverter1.flowNetwork.edges, spellingInverter2.flowNetwork.edges)
+    }
+    
+    func testGroupBuilderTwoGroups() {
+        var spellingInverter1 = SpellingInverter(spellings: [.c, .d])
+        let mask = GraphScheme<FlowNode<Int>> { edge in
+            switch (edge.a, edge.b) {
+            case (.internal, .internal):
+                return false
+            default: return true
+            }
+        }
+        spellingInverter1.connect(via: mask)
+        let spellingInverter2 = SpellingInverter(spellings: [[.c], [.d]])
+        XCTAssertEqual(spellingInverter1.flowNetwork.nodes, spellingInverter2.flowNetwork.nodes)
+        XCTAssertEqual(spellingInverter1.flowNetwork.edges, spellingInverter2.flowNetwork.edges)
+    }
+    
+    func testGroupBuilderTwoGroupsMoreComplicated() {
+        var spellingInverter1 = SpellingInverter(spellings: [.c, .d, .e])
+        let mask = GraphScheme<FlowNode<Int>> { edge in
+            (edge.contains(.internal(1)) && edge.contains(.internal(2))) || edge.contains(.source) || edge.contains(.sink)
+        }
+        spellingInverter1.connect(via: mask)
+        let spellingInverter2 = SpellingInverter(spellings: [[.c], [.d, .e]])
+        XCTAssertEqual(spellingInverter1.flowNetwork.nodes, spellingInverter2.flowNetwork.nodes)
+    }
+    
+    func testGroupBuilderThreeGroupsMoreComplicated() {
+        var spellingInverter1 = SpellingInverter(spellings: [.c, .d, .e, .f])
+        let mask = GraphScheme<FlowNode<Int>> { edge in
+            (edge.contains(.internal(1)) && edge.contains(.internal(2))) || edge.contains(.source) || edge.contains(.sink)
+        }
+        spellingInverter1.connect(via: mask)
+        let spellingInverter2 = SpellingInverter(spellings: [[.c], [.d, .e], [.f]])
+        XCTAssertEqual(spellingInverter1.flowNetwork.nodes, spellingInverter2.flowNetwork.nodes)
+    }
+    
+    func testGroupBuilderThreeGroupsMoreComplicatedPartitionSyntax() {
+        var spellingInverter1 = SpellingInverter(spellings: [.c, .d, .e, .f])
+        spellingInverter1.partition(via: [
+            0: 0,
+            1: 1,
+            2: 1,
+            3: 2
+            ])
+        let spellingInverter2 = SpellingInverter(spellings: [[.c], [.d, .e], [.f]])
+        XCTAssertEqual(spellingInverter1.flowNetwork.nodes, spellingInverter2.flowNetwork.nodes)
     }
 }

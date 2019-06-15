@@ -33,6 +33,22 @@ extension SpellingInverter {
     
     // MARK: - Initializers
     
+    init(spellings: [[Pitch.Spelling]], parsimonyPivot: Pitch.Spelling = .d) {
+        let flattenedSpellings: [Pitch.Spelling] = spellings.reduce(into: []) { flattened, list in
+            list.forEach { flattened.append($0) }
+        }
+        self.init(spellings: flattenedSpellings, parsimonyPivot: parsimonyPivot)
+        var runningCount = 0
+        var indexing: [Int: Int] = [:]
+        for (index, container) in spellings.enumerated() {
+            for (i,_) in container.enumerated() {
+                indexing[i + runningCount] = index
+            }
+            runningCount += container.count
+        }
+        self.partition(via: indexing)
+    }
+    
     init(spellings: [Pitch.Spelling], parsimonyPivot: Pitch.Spelling = .d) {
         let indexed: [Int: Pitch.Spelling] = spellings.enumerated().reduce(into: [:]) { indexedSpellings, indexedSpelling in
             let (index, spelling) = indexedSpelling
@@ -208,7 +224,7 @@ extension SpellingInverter {
     
     // MARK: - Instance Methods
     
-    mutating func partition (_ indices: [Int: Int]) {
+    mutating func partition (via indices: [Int: Int]) {
         let adjacencyScheme = GraphScheme<FlowNode<Int>> { edge in
             switch (edge.a, edge.b) {
             case let (.internal(a), .internal(b)):
@@ -217,12 +233,14 @@ extension SpellingInverter {
                 return true
             }
         }
-        mask(adjacencyScheme)
+        connect(via: adjacencyScheme)
     }
     
-    mutating func mask (_ adjacencyScheme: GraphScheme<FlowNode<Int>>) {
+    mutating func connect (via adjacencyScheme: GraphScheme<FlowNode<Int>>) {
         let temp: GraphScheme<FlowNode<Cross<Int, Tendency>>>
-            = adjacencyScheme.pullback(bind { cross in cross.a})
+            = (adjacencyScheme + GraphScheme<FlowNode<Int>> { edge in
+                edge.a == edge.b
+                }).pullback(bind { cross in cross.a})
         let mask: GraphScheme<PitchSpeller.AssignedNode> = temp.pullback { node in node.index }
         flowNetwork.mask(mask)
     }
