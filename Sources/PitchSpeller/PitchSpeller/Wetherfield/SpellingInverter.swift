@@ -233,10 +233,10 @@ extension SpellingInverter {
                 return true
             }
         }
-        mask(adjacencyScheme)
+        connect(via: adjacencyScheme)
     }
     
-    mutating func mask (_ adjacencyScheme: GraphScheme<FlowNode<Int>>) {
+    mutating func connect (via adjacencyScheme: GraphScheme<FlowNode<Int>>) {
         let temp: GraphScheme<FlowNode<Cross<Int, Tendency>>>
             = (adjacencyScheme + GraphScheme<FlowNode<Int>> { edge in
                 edge.a == edge.b

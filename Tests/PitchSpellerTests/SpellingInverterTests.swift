@@ -290,7 +290,7 @@ class SpellingInverterTests: XCTestCase {
                 || (edge.contains(.internal(3)) && edge.contains(.internal(4)))
             || edge.contains(.sink) || edge.contains(.source)
         }
-        spellingInverter.mask(scheme)
+        spellingInverter.connect(via: scheme)
         XCTAssertTrue(spellingInverter.findDependencies().containsCycle())
     }
     
@@ -359,7 +359,7 @@ class SpellingInverterTests: XCTestCase {
             default: return true
             }
         }
-        spellingInverter.mask(pairing)
+        spellingInverter.connect(via: pairing)
         XCTAssertFalse(spellingInverter.findDependencies().containsCycle())
     }
     
@@ -399,7 +399,7 @@ class SpellingInverterTests: XCTestCase {
             default: return true
             }
         }
-        spellingInverter.mask(pairing)
+        spellingInverter.connect(via: pairing)
         XCTAssertFalse(spellingInverter.findDependencies().containsCycle())
     }
     
@@ -439,7 +439,7 @@ class SpellingInverterTests: XCTestCase {
             default: return true
             }
         }
-        spellingInverter.mask(pairing)
+        spellingInverter.connect(via: pairing)
         XCTAssertFalse(spellingInverter.findDependencies().containsCycle())
     }
     
@@ -479,7 +479,7 @@ class SpellingInverterTests: XCTestCase {
             default: return true
             }
         }
-        spellingInverter.mask(pairing)
+        spellingInverter.connect(via: pairing)
         XCTAssertFalse(spellingInverter.findDependencies().containsCycle())
     }
     
@@ -519,7 +519,7 @@ class SpellingInverterTests: XCTestCase {
             default: return true
             }
         }
-        spellingInverter.mask(pairing)
+        spellingInverter.connect(via: pairing)
         XCTAssertFalse(spellingInverter.findDependencies().containsCycle())
     }
     
@@ -664,7 +664,7 @@ class SpellingInverterTests: XCTestCase {
             default: return true
             }
         }
-        spellingInverter.mask(pairing)
+        spellingInverter.connect(via: pairing)
         XCTAssertFalse(spellingInverter.findDependencies().containsCycle())
     }
     
@@ -743,7 +743,7 @@ class SpellingInverterTests: XCTestCase {
             default: return true
             }
         }
-        spellingInverter1.mask(mask)
+        spellingInverter1.connect(via: mask)
         let spellingInverter2 = SpellingInverter(spellings: [[.c], [.d]])
         XCTAssertEqual(spellingInverter1.flowNetwork.nodes, spellingInverter2.flowNetwork.nodes)
         XCTAssertEqual(spellingInverter1.flowNetwork.edges, spellingInverter2.flowNetwork.edges)
@@ -754,7 +754,7 @@ class SpellingInverterTests: XCTestCase {
         let mask = GraphScheme<FlowNode<Int>> { edge in
             (edge.contains(.internal(1)) && edge.contains(.internal(2))) || edge.contains(.source) || edge.contains(.sink)
         }
-        spellingInverter1.mask(mask)
+        spellingInverter1.connect(via: mask)
         let spellingInverter2 = SpellingInverter(spellings: [[.c], [.d, .e]])
         XCTAssertEqual(spellingInverter1.flowNetwork.nodes, spellingInverter2.flowNetwork.nodes)
     }
@@ -764,7 +764,7 @@ class SpellingInverterTests: XCTestCase {
         let mask = GraphScheme<FlowNode<Int>> { edge in
             (edge.contains(.internal(1)) && edge.contains(.internal(2))) || edge.contains(.source) || edge.contains(.sink)
         }
-        spellingInverter1.mask(mask)
+        spellingInverter1.connect(via: mask)
         let spellingInverter2 = SpellingInverter(spellings: [[.c], [.d, .e], [.f]])
         XCTAssertEqual(spellingInverter1.flowNetwork.nodes, spellingInverter2.flowNetwork.nodes)
     }
