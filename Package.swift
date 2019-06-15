@@ -8,8 +8,8 @@ let package = Package(
         .library(name: "PitchSpeller", targets: ["PitchSpeller"])
     ],
     dependencies: [
-        .package(url: "https://github.com/dn-m/Structure", from: "0.22.0"),
-        .package(url: "https://github.com/dn-m/Music", from: "0.13.1"),
+        .package(url: "https://github.com/dn-m/Structure", .exact("0.22.0")),
+        .package(url: "https://github.com/dn-m/Music", .exact("0.13.1")),
         .package(url: "https://github.com/dn-m/NotationModel", .branch("pitchspeller-dependency"))
         ],
     targets: [
