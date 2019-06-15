@@ -39,14 +39,14 @@ extension SpellingInverter {
         }
         self.init(spellings: flattenedSpellings, parsimonyPivot: parsimonyPivot)
         var runningCount = 0
-        var dictionary: [Int: Int] = [:]
+        var indexing: [Int: Int] = [:]
         for (index, container) in spellings.enumerated() {
             for (i,_) in container.enumerated() {
-                dictionary[i + runningCount] = index
+                indexing[i + runningCount] = index
             }
             runningCount += container.count
         }
-        self.partition(dictionary)
+        self.partition(indexing)
     }
     
     init(spellings: [Pitch.Spelling], parsimonyPivot: Pitch.Spelling = .d) {
