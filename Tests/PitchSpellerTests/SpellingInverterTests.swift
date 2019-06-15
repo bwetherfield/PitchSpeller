@@ -768,4 +768,16 @@ class SpellingInverterTests: XCTestCase {
         let spellingInverter2 = SpellingInverter(spellings: [[.c], [.d, .e], [.f]])
         XCTAssertEqual(spellingInverter1.flowNetwork.nodes, spellingInverter2.flowNetwork.nodes)
     }
+    
+    func testGroupBuilderThreeGroupsMoreComplicatedPartitionSyntax() {
+        var spellingInverter1 = SpellingInverter(spellings: [.c, .d, .e, .f])
+        spellingInverter1.partition([
+            0: 0,
+            1: 1,
+            2: 1,
+            3: 2
+            ])
+        let spellingInverter2 = SpellingInverter(spellings: [[.c], [.d, .e], [.f]])
+        XCTAssertEqual(spellingInverter1.flowNetwork.nodes, spellingInverter2.flowNetwork.nodes)
+    }
 }
