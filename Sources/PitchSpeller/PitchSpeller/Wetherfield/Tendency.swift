@@ -24,6 +24,8 @@ extension Tendency: Comparable {
     }
 }
 
+extension Tendency: Codable { }
+
 extension Pitch.Spelling {
 
     /// Creates a `Pitch.Spelling` value with the given `pitchClass` and the given `tendencies`,
