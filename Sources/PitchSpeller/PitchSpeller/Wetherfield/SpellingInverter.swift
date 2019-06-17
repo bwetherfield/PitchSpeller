@@ -97,7 +97,7 @@ extension SpellingInverter {
     /// `weightDependencies` or `nil` if no such distribution is possible, i.e. there are cyclical
     /// dependencies between edge types. In the latter case, the spellings fed in are *inconsistent*.
     /// Weights are parametrized by `Pitch.Class` and `Tendency` values.
-    func generateWeights () -> [PitchedEdge: Double] {
+    public func generateWeights () -> [PitchedEdge: Double] {
         let pitchedDependencies = findDependencies()
         if pitchedDependencies.containsCycle() {
             return generateWeightsFromCycles(pitchedDependencies)
