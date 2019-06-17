@@ -33,7 +33,7 @@ extension SpellingInverter {
     
     // MARK: - Initializers
     
-    init(spellings: [[Pitch.Spelling]], parsimonyPivot: Pitch.Spelling = .d) {
+    public init(spellings: [[Pitch.Spelling]], parsimonyPivot: Pitch.Spelling = .d) {
         let flattenedSpellings: [Pitch.Spelling] = spellings.reduce(into: []) { flattened, list in
             list.forEach { flattened.append($0) }
         }
