@@ -26,7 +26,7 @@ extension SpellingInverter {
     
     typealias AssignedEdge = OrderedPair<PitchSpeller.AssignedNode>
     typealias UnassignedEdge = OrderedPair<PitchSpeller.UnassignedNode>
-    typealias PitchedEdge = UnorderedPair<FlowNode<Cross<Pitch.Class,Tendency>>>
+    public typealias PitchedEdge = UnorderedPair<FlowNode<Cross<Pitch.Class,Tendency>>>
 }
 
 extension SpellingInverter {
