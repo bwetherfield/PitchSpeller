@@ -9,7 +9,7 @@ import DataStructures
 import Pitch
 import SpelledPitch
 
-struct SpellingInverter {
+public struct SpellingInverter {
     
     // MARK: - Instance Properties
     
