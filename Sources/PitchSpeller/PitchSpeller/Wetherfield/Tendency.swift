@@ -13,18 +13,16 @@ typealias TendencyPair = OrderedPair<Tendency>
 
 /// One of two values encoded in a Wetherfield `FlowNetwork`. Each provides a tendency `up`, or
 /// `down` for the purposes of spelling an unspelled pitch in a given musical context.
-public enum Tendency: Int {
+enum Tendency: Int {
     case down = 0
     case up = 1
 }
 
 extension Tendency: Comparable {
-    public static func < (lhs: Tendency, rhs: Tendency) -> Bool {
+    static func < (lhs: Tendency, rhs: Tendency) -> Bool {
         return lhs.rawValue < rhs.rawValue
     }
 }
-
-extension Tendency: Codable { }
 
 extension Pitch.Spelling {
 

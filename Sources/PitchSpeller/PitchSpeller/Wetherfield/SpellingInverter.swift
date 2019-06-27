@@ -9,7 +9,7 @@ import DataStructures
 import Pitch
 import SpelledPitch
 
-public struct SpellingInverter {
+struct SpellingInverter {
     
     // MARK: - Instance Properties
     
@@ -26,14 +26,14 @@ extension SpellingInverter {
     
     typealias AssignedEdge = OrderedPair<PitchSpeller.AssignedNode>
     typealias UnassignedEdge = OrderedPair<PitchSpeller.UnassignedNode>
-    public typealias PitchedEdge = UnorderedPair<FlowNode<Cross<Pitch.Class,Tendency>>>
+    typealias PitchedEdge = UnorderedPair<FlowNode<Cross<Pitch.Class,Tendency>>>
 }
 
 extension SpellingInverter {
     
     // MARK: - Initializers
     
-    public init(spellings: [[Pitch.Spelling]], parsimonyPivot: Pitch.Spelling = .d) {
+    init(spellings: [[Pitch.Spelling]], parsimonyPivot: Pitch.Spelling = .d) {
         let flattenedSpellings: [Pitch.Spelling] = spellings.reduce(into: []) { flattened, list in
             list.forEach { flattened.append($0) }
         }
@@ -97,7 +97,7 @@ extension SpellingInverter {
     /// `weightDependencies` or `nil` if no such distribution is possible, i.e. there are cyclical
     /// dependencies between edge types. In the latter case, the spellings fed in are *inconsistent*.
     /// Weights are parametrized by `Pitch.Class` and `Tendency` values.
-    public func generateWeights () -> [PitchedEdge: Double] {
+    func generateWeights () -> [PitchedEdge: Double] {
         let pitchedDependencies = findDependencies()
         if pitchedDependencies.containsCycle() {
             return generateWeightsFromCycles(pitchedDependencies)

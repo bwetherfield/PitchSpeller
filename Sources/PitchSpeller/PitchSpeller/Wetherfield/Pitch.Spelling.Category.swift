@@ -151,7 +151,7 @@ extension LetterName {
     /// - Returns: The next-lower `LetterName` value.
     /// - TODO: Refactor out into `CircularEnum`
     public var predecessor: LetterName {
-        let ownIndex = LetterName.allCases.firstIndex(of: self)!
+        let ownIndex = LetterName.allCases.index(of: self)!
         let previousIndex = mod(ownIndex - 1, LetterName.allCases.count)
         return LetterName.allCases[previousIndex]
     }
@@ -159,7 +159,7 @@ extension LetterName {
     /// - Returns: The next-higher `LetterName` value.
     /// - TODO: Refactor out into `CircularEnum`
     public var successor: LetterName {
-        let ownIndex = LetterName.allCases.firstIndex(of: self)!
+        let ownIndex = LetterName.allCases.index(of: self)!
         let nextIndex = mod(ownIndex + 1, LetterName.allCases.count)
         return LetterName.allCases[nextIndex]
     }
