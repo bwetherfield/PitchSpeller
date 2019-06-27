@@ -1,4 +1,4 @@
-// swift-tools-version:4.2
+// swift-tools-version:5.0
 
 import PackageDescription
 
@@ -8,8 +8,8 @@ let package = Package(
         .library(name: "PitchSpeller", targets: ["PitchSpeller"])
     ],
     dependencies: [
-//        .package(url: "https://github.com/dn-m/Structure", .branch("pitchspeller-dependency")),
-//        .package(url: "https://github.com/dn-m/Music", .exact("0.13.1")),
+        .package(url: "https://github.com/dn-m/Structure", .branch("pitchspeller-dependency")),
+        .package(url: "https://github.com/dn-m/Music", .branch("pitchspeller-dependency")),
         .package(url: "https://github.com/dn-m/NotationModel", .branch("pitchspeller-dependency"))
         ],
     targets: [
