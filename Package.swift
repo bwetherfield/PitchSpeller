@@ -9,8 +9,8 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/dn-m/Structure", .branch("pitchspeller-dependency")),
-        .package(url: "https://github.com/dn-m/Music", .branch("pitchspeller-dependency")),
-        .package(url: "https://github.com/dn-m/NotationModel", .branch("pitchspeller-dependency"))
+        .package(url: "https://github.com/dn-m/Music", from: "0.15.0"),
+        .package(url: "https://github.com/dn-m/NotationModel", from: "0.8.0")
         ],
     targets: [
         // Sources
