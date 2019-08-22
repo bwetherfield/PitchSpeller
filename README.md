@@ -6,6 +6,8 @@
 
 The `PitchSpeller` module contains work toward a flexible [pitch spelling algorithm](https://github.com/dn-m/NotationModel/tree/master/Sources/SpelledPitch/PitchSpeller/Wetherfield), as formalized in my Harvard undegrad thesis. This project aims to take unspelled pitch information (e.g., MIDI note numbers), and produce optimal spelled versions of them, given the musical context and user preference.
 
+`PitchSpeller` builds off of the [dn-m](https://github.com/dn-m/) ecosystem making use of the musical and algebraic structures defined in [dn-m/Music](https://github.com/dn-m/Music), [dn-m/NotationModel](https://github.com/dn-m/NotationModel) and [dn-m/Structure](https://github.com/dn-m/Structure).
+
 ## Development
 
 Work on this package requires Swift 5.0.
