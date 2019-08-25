@@ -14,18 +14,18 @@
         "package": "Music",
         "repositoryURL": "https://github.com/dn-m/Music",
         "state": {
-          "branch": "pitchspeller-dependency",
-          "revision": "09289cf01bb397835232732281f59126c9a614f0",
-          "version": null
+          "branch": null,
+          "revision": "db4313f1954f1cc2c6bb0d4a0e2a2e5eec3d013b",
+          "version": "0.15.0"
         }
       },
       {
         "package": "NotationModel",
         "repositoryURL": "https://github.com/dn-m/NotationModel",
         "state": {
-          "branch": "pitchspeller-dependency",
-          "revision": "d0bc8b777b1191275654894dea556f351ba912d3",
-          "version": null
+          "branch": null,
+          "revision": "7050b4c8e80c48f758f1e808fcd02712a2085339",
+          "version": "0.8.0"
         }
       },
       {
@@ -33,7 +33,7 @@
         "repositoryURL": "https://github.com/dn-m/PerformanceTesting",
         "state": {
           "branch": "pitchspeller-dependency",
-          "revision": "fd97209b9465e698c51cb30dfc24db35f39fa5c5",
+          "revision": "0c298e24006ae3ddd7282f83e85f87a760113637",
           "version": null
         }
       },
