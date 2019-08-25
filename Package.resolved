@@ -14,18 +14,18 @@
         "package": "Music",
         "repositoryURL": "https://github.com/dn-m/Music",
         "state": {
-          "branch": "pitchspeller-dependency",
-          "revision": "09289cf01bb397835232732281f59126c9a614f0",
-          "version": null
+          "branch": null,
+          "revision": "f3fd487603a05c7b7ff20f1e8ad29d866a60fded",
+          "version": "0.17.1"
         }
       },
       {
         "package": "NotationModel",
         "repositoryURL": "https://github.com/dn-m/NotationModel",
         "state": {
-          "branch": "pitchspeller-dependency",
-          "revision": "e6d41cfd3d91da0011f87ea19566bfdf966eab04",
-          "version": null
+          "branch": null,
+          "revision": "a68f1af89ca15c41736e25f17616a4504838073c",
+          "version": "0.9.0"
         }
       },
       {
